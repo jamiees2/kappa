@@ -8,8 +8,8 @@ from sqlalchemy.exc import OperationalError
 # import logging
 # logging.basicConfig()
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
-Base = declarative_base()
+class_registry={}
+Base = declarative_base(class_registry=class_registry)
 
 
 class Submission(Base):
@@ -83,7 +83,7 @@ def set_contest_id(contest_id):
 
 def register_base(db):
     db.Model = Base
-    for c in Base._decl_class_registry.values():
+    for k, c in Base._decl_class_registry.items():
+        if k.startswith('_'): continue # SQLAlchemy internal classes
         # Add the query class to each of the models.
-        if hasattr(c, "query"):
-            c.query = db.session.query_property()
+        c.query = db.session.query_property()
