@@ -1,0 +1,7 @@
+examples:
+- {input: 'TestTestTest
+
+    ', output: 'TeSt!!
+
+    '}
+title: Test Problem
