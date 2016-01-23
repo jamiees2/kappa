@@ -12,4 +12,4 @@ To build a contest:
 problems/build_contest <contest_dir>
 ```
 
-For the contest format, see an example contest at `testing/test`.
+For the contest format, see an example contest at `example_contest`.
