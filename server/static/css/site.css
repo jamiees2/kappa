@@ -245,8 +245,25 @@ table a {
 }
 
 .problem #code_wrapper {
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.problem #answer{
+    width: 100%;
+}
+
+.problem #answer_file{
+    width: 100%;
+}
+
+.problem #submit_answer{
+    width: 100%;
+}
+
+.problem #submit_wrapper{
+    padding-left:0;
 }
 
 .problem #code_buttons {
