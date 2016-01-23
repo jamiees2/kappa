@@ -36,31 +36,6 @@ def read(path):
     except:
         return None
 
-
-class Language:
-    def __init__(self, name, filename, compile, execute, highlight, template):
-        self.name = name
-        self.filename = filename
-        self.compile = compile
-        self.execute = execute
-        self.highlight = highlight
-        self.template = template
-
-    @staticmethod
-    def load_all(path):
-        langs = []
-        for name, lang in load(pjoin(path, 'languages.yml')).items():
-
-            langs.append(Language(
-                name=name,
-                filename=lang['filename'],
-                compile=lang.get('compile'),
-                execute=lang['execute'],
-                highlight=lang['highlight'],
-                template=lang.get('template', '')))
-        return langs
-
-
 class Team:
     def __init__(self, name, title, password, location, groups):
         self.name = name
@@ -264,7 +239,7 @@ class Contest:
     RUNNING = 1
     FINISHED = 2
 
-    def __init__(self, id, title, db, start, duration, teams, problems, languages, phases, groups, judges, register=False):
+    def __init__(self, id, title, db, start, duration, teams, problems, phases, groups, judges, register=False):
         self.id = id
         self.title = title
         self.db = db
@@ -272,7 +247,6 @@ class Contest:
         self.duration = duration
         self.teams = teams
         self.problems = problems
-        self.languages = languages
         self.phases = phases
         self.groups = groups
         self.register = register
@@ -323,7 +297,6 @@ class Contest:
             teams={team.name: team for team in teams},
             groups=groups,
             problems={problem.id: problem for problem in Problem.load_all(path)},
-            languages={lang.name: lang for lang in Language.load_all(os.path.join(DIR, 'config'))},
             phases=None,
             judges={judge.name: judge for judge in judges},
             register=contest.get('register', False),

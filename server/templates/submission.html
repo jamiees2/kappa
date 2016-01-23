@@ -6,7 +6,7 @@
     <h3>Details for submission {{ submission.id }}</h3>
     <h5>Team {{ submission.team }}, problem {{ contest.problems[submission.problem].title | safe }}, submitted at {{ submission.submitted | format_time }}</h5>
     {# <pre><code>{{ submission.file }}</code></pre> #}
-    <textarea id="source_code">{{ submission.file }}</textarea>
+    <textarea id="answer">{{ submission.answer }}</textarea>
     <div class="form-group">
         <h4>Actions:</h4>
         <a href="{{url_for('default.view_problem', problem_id=submission.problem)}}" class="btn btn-primary"><i class="fa fa-eye"></i> View Problem</a>
@@ -19,26 +19,4 @@
         {{ submission.judge_response | safe }}
     {% endif %}
 {% endblock %}
-{% block below %}
-<style type="text/css">
-    .CodeMirror {
-        height: auto;
-        overflow-x: auto;
-        overflow-y: hidden;
-    }
-</style>
-<script type="text/javascript">
 
-    jQuery(function ($) {
-
-        CodeMirror.fromTextArea($('#source_code')[0], {
-            'mode': '{{ contest.languages[submission.language].highlight }}',
-            'theme': 'ambiance',
-            'readOnly': true,
-            'lineNumbers': true
-        });
-
-    });
-
-</script>
-{% endblock %}
