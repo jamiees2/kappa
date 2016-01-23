@@ -1,0 +1,69 @@
+{% extends "judge/base.html" %}
+{% block body %}
+
+<div class="navbar navbar-default navbar-fixed-top" id="header">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('judge.index') }}">{{ contest.title }}</a>
+                {% if phase.status %}
+                    <p class="navbar-text">{{ phase.status }}</p>
+                {% endif %}
+                {% if phase.countdown != None and phase.current_countdown() >= 0 %}
+                    <p class="navbar-text countdown">{{ phase.current_countdown() | format_time }}</p>
+                {% endif %}
+            </div>
+            <div class="collapse navbar-collapse" id="topbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ judge.name }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('judge.logout') }}"><i class="fa fa-user-times"></i> Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="sidebar-wrapper">
+        <ul class="nav sidebar nav-stacked problem-list">
+            {% if phase.scoreboard_problems %}
+                <li><a href="{{ url_for('judge.view_scoreboard') }}"><i class="fa fa-flag"></i> Scoreboard</a></li>
+            {% endif %}
+
+            <li><a href="{{ url_for('judge.list_submissions') }}"><i class="fa fa-check-square-o"></i> Submissions</a></i>
+            <li><a href="{{ url_for('judge.list_teams') }}"><i class="fa fa-group"></i> Teams</a></i>
+            <li><a href="{{ url_for('judge.balloons') }}"><i class="fa fa-thumbs-up"></i> Balloons</a></i>
+            <li><a href="{{ url_for('judge.export') }}"><i class="fa fa-download"></i> Export</a></i>
+            <li><a href="{{ url_for('judge.resolver') }}"><i class="fa fa-video-camera"></i> Resolver</a></i>
+            <li><a href="{{ url_for('judge.reload') }}"><i class="fa fa-cogs"></i> Reload Config</a></i>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="container-fluid" id="main">
+            <div class="row">
+                <div class="col-xs-12 content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 footer">
+            <hr />
+            generated in {{ "%.04f" % (g.request_time() * 1000.0) }}ms by <span class="epsilon" title="epsilon">&epsilon;</span>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

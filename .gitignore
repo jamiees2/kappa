@@ -1,0 +1,18 @@
+
+*.pyc
+__pycache__
+
+/judge/venv
+/judge/submissions/*
+!/judge/submissions/empty
+
+/server/venv
+/server/judges/ideone/venv
+/server/judges/temp
+
+/test_contests
+/venv
+
+.epsilon
+
+# server/static/components
