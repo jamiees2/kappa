@@ -67,41 +67,18 @@
                     </div>
 
                     {% if team %}
-                        <div class="form-group">
-                            <label class="control-label" for="language">Language</label>
-                            <select class="form-control" name="language" id="language">
-                                <option value="not selected">Choose language</option>
-                                {% for _, lang in sorted(contest.languages.items()) %}
-                                    {% if sub %}
-                                        <option {{ 'selected' if lang.name == sub.language else '' }} value="{{ lang.name }}">{{ lang.name }}</option>
-                                    {% else %}
-                                        <option {{ 'selected' if lang.name == team.last_used_language else '' }} value="{{ lang.name }}">{{ lang.name }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
 
                         <div>
-                            <label class="control-label" for="source_code">Source code</label>
+                            <label class="control-label" for="answer">Answer</label>
                             <div id="code_wrapper">
-                                {% if sub %}
-                                    <textarea name="source_code" id="source_code" class="form-control clearfix" rows="5">{{ sub.file }}</textarea>
-                                {% else %}
-                                    <textarea name="source_code" id="source_code" class="form-control clearfix" rows="5"></textarea>
-                                {% endif %}
-                            </div>
-                            <div id="code_buttons" class="btn-group">
-                                <button id="code_normal_mode" class="btn btn-default btn-mini active">Normal</button>
-                                <button id="code_vim_mode" class="btn btn-default btn-mini">Vim</button>
-                                <button id="code_emacs_mode" class="btn btn-default btn-mini">Emacs</button>
-                                <button id="code_fullscreen" class="btn btn-default btn-mini"><span class="fa fa-arrows-alt"></span></button>
+                                <textarea name="answer" id="answer" class="form-control clearfix" rows="5" placeholder="Answer"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-6 control-label text-left" for="source_file">Or choose file</label>
+                            <label class="col-sm-6 control-label text-left" for="answer_file">Or choose file</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="file" name="source_file" id="source_file" />
+                                <input class="form-control" type="file" name="answer_file" id="answer_file" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -117,117 +94,4 @@
         {% endif %}
     </div>
 {% endblock %}
-{% block below %}
-<script type="text/javascript">
 
-    jQuery(function ($) {
-
-        var none = 'not selected';
-
-        var lang_highlight = {
-            none: 'clike',
-            {% for i, lang in enumerate(contest.languages.values()) %}
-                {% if i != 0 %}
-                    ,
-                {% endif %}
-                "{{ lang.name }}":"{{ lang.highlight }}"
-            {% endfor %}
-        };
-
-        var lang_template = {
-            none: '',
-            {% for i, lang in enumerate(contest.languages.values()) %}
-                {% if i != 0 %}
-                    ,
-                {% endif %}
-                "{{ lang.name }}":"{{ lang.template.replace("\\", "\\\\").replace('"', '\"').replace("\n", "\\n") | safe }}"
-            {% endfor %}
-        };
-        if($("#source_code").length == 0)
-            return;
-        var mode = "clike";
-        var last_lang = 'not selected';
-        if($("#language").val() !== last_lang) {
-            last_lang = $("#language").val();
-            mode = lang_highlight[last_lang];
-        }
-        var code = CodeMirror.fromTextArea($('#source_code')[0], {
-            'mode': mode,
-            'theme': 'ambiance',
-            'lineNumbers': true,
-            'indentUnit': 4
-        });
-
-        var update_lang = function (e) {
-
-            lang_template[last_lang] = code.getValue();
-
-            var lang = $('#language').val();
-            if(lang === last_lang) {
-                return;
-            }
-            code.setOption('mode', lang_highlight[lang]);
-            code.setValue(lang_template[lang]);
-            last_lang = lang;
-        };
-
-        update_lang();
-        $('#language').change(update_lang);
-
-        $('#problem_form').submit(function () {
-
-            if ($('#language').val() === none) {
-                alert('Please choose a language.');
-                return false;
-            }
-
-            return true;
-        });
-
-        $('#code_normal_mode').click(function () {
-            $('#code_normal_mode').removeClass('active');
-            $('#code_vim_mode').removeClass('active');
-            $('#code_emacs_mode').removeClass('active');
-
-            $('#code_normal_mode').addClass('active');
-            code.setOption('keyMap', 'default');
-            code.focus();
-            return false;
-        });
-
-        $('#code_vim_mode').click(function () {
-            $('#code_normal_mode').removeClass('active');
-            $('#code_vim_mode').removeClass('active');
-            $('#code_emacs_mode').removeClass('active');
-
-            $('#code_vim_mode').addClass('active');
-            code.setOption('keyMap', 'vim');
-            code.focus();
-            return false;
-        });
-
-        $('#code_emacs_mode').click(function () {
-            $('#code_normal_mode').removeClass('active');
-            $('#code_vim_mode').removeClass('active');
-            $('#code_emacs_mode').removeClass('active');
-
-            $('#code_emacs_mode').addClass('active');
-            code.setOption('keyMap', 'emacs');
-            code.focus();
-            return false;
-        });
-
-        $('#code_fullscreen').click(function () {
-            $('body').toggleClass('code_mode');
-            $('#code_fullscreen').toggleClass('active');
-            code.refresh();
-            code.focus();
-            return false;
-        });
-
-        $('#code_buttons').detach().appendTo($('.CodeMirror')).css('display', 'block');
-
-    });
-
-</script>
-{% endblock %}

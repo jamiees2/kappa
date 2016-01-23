@@ -124,24 +124,22 @@ def view_problem(problem_id, sub_id):
         team = get_team()
         if (
                 'language' in request.form and
-                ('source_file' in request.files or 'source_code' in request.form) and
-                request.form['language'] in app.contest.languages):
+                ('answer_file' in request.files or 'answer' in request.form)):
 
-            if 'source_file' in request.files:
-                code = request.files['source_file'].read()
+            if 'answer_file' in request.files:
+                answer = request.files['answer_file'].read()
                 try:
-                    code = code.decode('utf-8')
+                    answer = answer.decode('utf-8')
                 except UnicodeDecodeError:
-                    code = text.bytes2unicode(code)
+                    answer = text.bytes2unicode(answer)
 
-            if 'source_file' not in request.files or not code:
-                code = request.form['source_code']
+            if 'answer_file' not in request.files or not answer:
+                answer = request.form['answer']
 
             sub = Submission(
                 team=team.name,
                 problem=problem_id,
-                language=request.form['language'],
-                file=code,
+                answer=answer,
                 submitted=datetime.datetime.now()
             )
 
