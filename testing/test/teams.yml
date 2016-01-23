@@ -1,0 +1,4 @@
+teams:
+    "fk_bil": { pass: "password", title: " ", location: "M106", groups: [all, ts] }
+groups:
+    "all": "Allir"

@@ -1,0 +1,32 @@
+id: test
+title: Test Contest
+start: 2014-03-02 16:00:00.000
+db: postgresql://epsilon:epsilon@localhost:5432/epsilon
+duration: 1000000000000
+
+balloons: true
+display_diff: true # TODO
+display_input: true # TODO
+register: true
+
+phases:
+    -60:
+        status: "Keppni ekki hafin"
+        countdown: 60
+    0:
+        status: "Fyrir hádegi"
+        countdown: 150
+        problems:
+            testproblem: [visible, scoreboard, submit]
+    150:
+        status: "Hádegishlé"
+        countdown: 60
+        problems:
+            - testproblem: [scoreboard]
+
+    210:
+        status: "Eftir hádegi"
+        countdown: 150
+        problems:
+            - "Eftir hádegi"
+            - testproblem: [visible, scoreboard, submit]

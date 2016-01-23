@@ -8,3 +8,6 @@
 	path = manual_judge/xonsh
 	url = https://github.com/scopatz/xonsh.git
 	branch = master
+[submodule "problems/problemtools"]
+	path = problems/problemtools
+	url = https://github.com/Kattis/problemtools.git
