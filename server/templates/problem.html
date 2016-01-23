@@ -60,54 +60,18 @@
         </div>
 
         {% if problem.id in phase.submit_problems %}
-            <form id="problem_form" class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+            <form id="problem_form" class="form-inline" action="" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <div id="legend">
                         <legend><h2>Submit</h2></legend>
                     </div>
 
                     {% if team %}
-                        <div class="form-group">
-                            <label class="control-label" for="language">Language</label>
-                            <select class="form-control" name="language" id="language">
-                                <option value="not selected">Choose language</option>
-                                {% for _, lang in sorted(contest.languages.items()) %}
-                                    {% if sub %}
-                                        <option {{ 'selected' if lang.name == sub.language else '' }} value="{{ lang.name }}">{{ lang.name }}</option>
-                                    {% else %}
-                                        <option {{ 'selected' if lang.name == team.last_used_language else '' }} value="{{ lang.name }}">{{ lang.name }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="answer" placeholder="Answer">
                         </div>
-
-                        <div>
-                            <label class="control-label" for="source_code">Source code</label>
-                            <div id="code_wrapper">
-                                {% if sub %}
-                                    <textarea name="source_code" id="source_code" class="form-control clearfix" rows="5">{{ sub.file }}</textarea>
-                                {% else %}
-                                    <textarea name="source_code" id="source_code" class="form-control clearfix" rows="5"></textarea>
-                                {% endif %}
-                            </div>
-                            <div id="code_buttons" class="btn-group">
-                                <button id="code_normal_mode" class="btn btn-default btn-mini active">Normal</button>
-                                <button id="code_vim_mode" class="btn btn-default btn-mini">Vim</button>
-                                <button id="code_emacs_mode" class="btn btn-default btn-mini">Emacs</button>
-                                <button id="code_fullscreen" class="btn btn-default btn-mini"><span class="fa fa-arrows-alt"></span></button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-6 control-label text-left" for="source_file">Or choose file</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="file" name="source_file" id="source_file" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-4 pull-right">
-                                <button class="btn btn-success form-control">Submit</button>
-                            </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-success form-control">Submit</button>
                         </div>
                     {% else %}
                         <div>Sorry. You have to be <a href="{{ url_for('default.login') }}">logged in</a> to submit your solution.</div>

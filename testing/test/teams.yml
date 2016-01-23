@@ -1,4 +1,5 @@
 teams:
+    "glitch": {pass: "glitch", location: unknown, groups:[all]}
     "fk_bil": { pass: "password", title: " ", location: "M106", groups: [all, ts] }
 groups:
     "all": "Allir"
