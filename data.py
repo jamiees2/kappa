@@ -1,34 +1,9 @@
 import os
 import datetime
-import markdown
 from os.path import join as pjoin
 import sys
-DIR = os.path.join(os.path.dirname(__file__), "..")
-sys.path.append(DIR)
 from lib.yamllib import load
 from importlib.machinery import SourceFileLoader
-
-processor = markdown.Markdown(extensions=['mathjax'])
-
-# def load(path):
-#     with open(path) as f:
-#         return yaml.load(f)
-
-verdict_explanation = {
-    'QU': 'in queue',
-    'AC': 'accepted',
-    'PE': 'presentation error',
-    'WA': 'wrong answer',
-    'CE': 'compile time error',
-    'RE': 'runtime error',
-    'TL': 'time limit exceeded',
-    'ML': 'memory limit exceeded',
-    'OL': 'output limit exceeded',
-    'SE': 'submission error',
-    'RF': 'restricted function',
-    'CJ': 'cannot judge',
-}
-
 
 def read(path):
     try:

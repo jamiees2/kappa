@@ -2,9 +2,9 @@ import io
 import json
 import datetime
 from flask import redirect, abort, render_template, request, session, send_file, Blueprint, current_app as app
-from server.data import Contest, ScoreboardTeamProblem, Balloon, verdict_explanation
+from data import Contest, ScoreboardTeamProblem, Balloon
 from lib.models import Submission, Balloon as BalloonModel
-from server.util import judge_only, judge_is_logged_in, url_for
+from util import judge_only, judge_is_logged_in, url_for
 
 judge = Blueprint("judge", __name__, template_folder="../templates")
 
@@ -74,12 +74,9 @@ def view_scoreboard(opts):
 
         cur = sb[sub.team][sub.problem]
 
-        if sub.verdict == 'QU':
-            cur.submit_new()
-        elif sub.verdict not in {'SE', 'RF', 'CJ', 'CE'}:
-            cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.verdict == 'AC')
+        cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score, sub.points)
 
-    ssb = sorted((-sum(sb[team][problem].is_solved() for problem in phase.scoreboard_problems),
+    ssb = sorted((-sum(sb[team][problem].points() for problem in phase.scoreboard_problems),
                   sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems),
                   team) for team in sb.keys())
 
@@ -99,40 +96,16 @@ def list_submissions(team_name):
 
     submissions = submissions.filter(Submission.submitted <= cur_time).order_by(Submission.submitted).all()
 
-    def format_verdict_classes(vs):
-        vs = set(vs.split('+'))
-        if vs <= {'QU'}:
-            return 'info'
-        if vs <= {'AC'}:
+    def format_verdict_classes(points):
+        if points >= 0:
             return 'success'
-        if vs <= {'SE', 'RF', 'CJ', 'CE'}:
-            return 'warning'
-        if vs <= {'PE', 'WA', 'RE', 'TL', 'ML', 'OL'}:
+        else:
             return 'danger'
         return ''
-
-    label_class = {
-        'QU': 'info',
-        'AC': 'success',
-        'PE': 'warning',
-        'WA': 'danger',
-        'CE': 'warning',
-        'RE': 'danger',
-        'TL': 'danger',
-        'ML': 'danger',
-        'OL': 'danger',
-        'SE': 'default',
-        'RF': 'default',
-        'CJ': 'default',
-    }
-
-    def label_class_for(v):
-        return "label label-" + label_class.get(v, 'default')
 
     return render_template('judge/submissions.html',
                            submissions=reversed(submissions),
                            format_verdict_classes=format_verdict_classes,
-                           label_class_for=label_class_for,
                            )
 
 

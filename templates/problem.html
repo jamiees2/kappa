@@ -18,6 +18,11 @@
                     </div>
 
                     {% if team %}
+                        {% if max_sub %}
+                            <div class="row">
+                                <div class="alert alert-success" role="alert"><b>Score: {{ max_sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ max_sub.judge_response }}</span></div>
+                            </div>
+                        {% endif %}
                         <div class="row">
                             <div>
                                 <div id="code_wrapper">

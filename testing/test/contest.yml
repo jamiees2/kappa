@@ -18,11 +18,13 @@ phases:
         countdown: 150
         problems:
             testproblem: [visible, scoreboard, submit]
+            testproblem2: [visible, scoreboard, submit]
     150:
         status: "Hádegishlé"
         countdown: 60
         problems:
             - testproblem: [scoreboard]
+            - testproblem2: [scoreboard]
 
     210:
         status: "Eftir hádegi"
@@ -30,3 +32,4 @@ phases:
         problems:
             - "Eftir hádegi"
             - testproblem: [visible, scoreboard, submit]
+            - testproblem2: [visible, scoreboard, submit]

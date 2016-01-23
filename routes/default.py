@@ -3,9 +3,9 @@ import os
 import datetime
 import lib.text as text
 from flask import redirect, abort, render_template, request, session, send_from_directory, Blueprint, current_app as app
-from server.data import ScoreboardTeamProblem, Contest
+from data import ScoreboardTeamProblem, Contest
 from lib.models import Submission
-from server.util import url_for, get_team, is_logged_in, login_required
+from util import url_for, get_team, is_logged_in, login_required
 
 default = Blueprint("default", __name__, template_folder="../templates")
 
@@ -38,7 +38,7 @@ def view_scoreboard(opts):
           sub.submitted >= app.contest.second_format(60.0 * phase.frozen) and \
           (not is_logged_in() or get_team().name != sub.team)):
             cur.submit_new()
-        elif sub.points > 0:
+        else:
             cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score, sub.points)
 
     ssb = sorted((-sum(sb[team][problem].points() for problem in phase.scoreboard_problems),
@@ -89,6 +89,8 @@ def view_problem(problem_id, sub_id):
 
     problem = app.contest.problems.get(problem_id)
     phase = app.contest.get_current_phase()
+
+    team = get_team()
     if not problem:
         abort(404)
     if request.method == 'POST':
@@ -98,8 +100,6 @@ def view_problem(problem_id, sub_id):
 
         if not is_logged_in():
             return redirect(url_for('default.login', next=request.path))
-
-        team = get_team()
         if ('answer_file' in request.files or 'answer' in request.form):
 
             if 'answer_file' in request.files:
@@ -131,7 +131,7 @@ def view_problem(problem_id, sub_id):
         else:
             abort(400)
 
-        return redirect(url_for('default.list_submissions'))
+        # return redirect(url_for('default.list_submissions'))
 
     if problem_id not in phase.visible_problems:
         abort(404)
@@ -142,7 +142,8 @@ def view_problem(problem_id, sub_id):
         sub = Submission.query.filter_by(id=sub_id).first()
         if not sub or sub.team != team.name:
             abort(404)
-    return render_template('problem.html', problem=problem, sub=sub)
+    max_sub = Submission.query.filter_by(problem=problem_id, team=team.name).order_by(Submission.points.desc()).first()
+    return render_template('problem.html', problem=problem, sub=sub, max_sub=max_sub)
 
 
 # @default.route('/problem/<problem_id>/assets/<path:asset>')

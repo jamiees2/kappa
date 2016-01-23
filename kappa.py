@@ -1,19 +1,17 @@
 import os
 import sys
-BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
-sys.path.insert(0, BASE_DIR)
 
 import argparse
 import time
 import datetime
 from flask import Flask, g, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
-from server.data import Contest
+from data import Contest
 import lib.models as models
-from server.util import context_processor
+from util import context_processor
 
-from server.routes.default import default
-from server.routes.judge import judge
+from routes.default import default
+from routes.judge import judge
 
 
 # REDIRECT_SUB = re.compile('^http://localhost(:[0-9]+)?')

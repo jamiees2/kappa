@@ -1,7 +1,6 @@
 import datetime
 import functools
 from flask import redirect, url_for as real_url_for, request, session, current_app as app
-from server.data import verdict_explanation
 from lib.models import Submission
 
 
@@ -78,7 +77,6 @@ def context_processor():
         solved=solved,
         tried=tried,
         problem=None,
-        verdict_explanation=verdict_explanation,
         sorted=sorted,
         reversed=lambda x: list(reversed(x)),
         int=int,
