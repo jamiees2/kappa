@@ -3,7 +3,7 @@ import json
 import datetime
 from flask import redirect, abort, render_template, request, session, send_file, Blueprint, current_app as app
 from server.data import Contest, ScoreboardTeamProblem, Balloon, verdict_explanation
-from lib.models import Submission, SubmissionQueue, Balloon as BalloonModel
+from lib.models import Submission, Balloon as BalloonModel
 from server.util import judge_only, judge_is_logged_in, url_for
 
 judge = Blueprint("judge", __name__, template_folder="../templates")
@@ -144,20 +144,9 @@ def view_submission(sub_id):
         abort(404)
 
     if request.method == 'POST':
-        if 'verdict' in request.form and 'judge_response' in request.form:
-            v = request.form['verdict'].split('+')
-            if not (len(v) == len(set(v)) and set(v) <= set(verdict_explanation.keys())):
-                abort(400)
-
-            sub.verdict = request.form['verdict']
+        if 'score' in request.form and 'judge_response' in request.form:
+            sub.score = request.form['score']
             sub.judge_response = request.form['judge_response']
-
-            if sub.verdict == 'QU':
-                qsub = SubmissionQueue.query.filter_by(submission_id=sub.id).first()
-                if qsub:
-                    qsub.dequeued_at = None
-                else:
-                    app.db.session.add(SubmissionQueue(sub.id))
 
             app.db.session.commit()
             return redirect(url_for('judge.view_submission', sub_id=sub_id))

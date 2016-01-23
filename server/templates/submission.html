@@ -13,7 +13,7 @@
         <a href="{{url_for('default.view_problem', problem_id=submission.problem, sub_id=submission.id)}}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
     </div>
     <hr />
-    <h4>Verdict: {{ submission.verdict }}</h4>
+    <h4>Verdict: {{ submission.score }}</h4>
     <hr />
     {% if submission.judge_response != None %}
         {{ submission.judge_response | safe }}

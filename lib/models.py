@@ -20,35 +20,20 @@ class Submission(Base):
     answer = Column(Text(), nullable=False)
     # submitted = Column(Float(), nullable=False)
     submitted = Column(DateTime(), nullable=False)
-    verdict = Column(String(20), default='QU', nullable=False)
+    score = Column(Integer, default=0, nullable=False)
+
     judge_response = Column(Text())
 
-    time = Column(Integer)  # ms
-    memory = Column(Integer)  # bytes
-
-    def __init__(self, team, problem, language, file, submitted=None, verdict='QU', judge_response=None):
+    def __init__(self, team, problem, answer, submitted=None, score=0, judge_response=None):
         self.team = team
         self.problem = problem
-        self.language = language
-        self.file = file
+        self.answer = answer
         if submitted is None:
             self.submitted = datetime.datetime.now()
         else:
             self.submitted = submitted
-        self.verdict = verdict
+        self.score = score
         self.judge_response = judge_response
-
-
-class SubmissionQueue(Base):
-    __tablename__ = 'SubmissionQueue'
-    submission_id = Column(Integer, ForeignKey('Submission.id'), primary_key=True)
-    status = Column(Integer, default=0, nullable=False)
-    dequeued_at = Column(DateTime)
-
-    def __init__(self, submission_id, status=0, dequeued_at=None):
-        self.submission_id = submission_id
-        self.satus = status
-        self.dequeued_at = dequeued_at
 
 
 class Balloon(Base):

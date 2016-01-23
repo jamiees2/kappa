@@ -17,7 +17,7 @@ if os.path.exists(output_dir):
 os.mkdir(output_dir)
 
 print('Generating HTML')
-p = Popen([os.path.join(PROBLEMTOOLS, 'problem2html.py'), problem_dir, '-b', '-d', os.path.join(output_dir, 'statement')], stdout=PIPE)
+p = Popen([os.path.join(PROBLEMTOOLS, 'src', 'problem2html.py'), problem_dir, '-b', '-d', os.path.join(output_dir, 'statement')], stdout=PIPE)
 if p.wait() != 0:
     print('Errors while generating HTML')
     sys.exit(1)
@@ -27,31 +27,18 @@ with open(os.path.join(output_dir, 'statement', 'index.html'), 'r') as f:
     if mat:
         problem_title = mat.group().split('<h1>')[1].split('</h1>')[0].replace('\n', ' ')
 
-tests = {'sample': [], 'secret': []}
-for test_type in tests:
-    for tfile in sorted(glob.glob(os.path.join(problem_dir, 'data', test_type, '*.in'))):
-        with open(tfile, 'r') as f:
-            inp = f.read()
-        with open(os.path.splitext(tfile)[0] + '.ans', 'r') as f:
-            outp = f.read()
-        tests[test_type].append((test_type + '__' + os.path.splitext(os.path.basename(tfile))[0], inp, outp))
-
 problem_yaml = {
     'title': problem_title,
     'examples': []
 }
+pdata = {}
+with open(os.path.join(problem_dir, 'problem.yaml')) as f:
+    pdata = yaml.load(f)
+problem_yaml['points'] = pdata['points']
 
-for _, inp, outp in tests['sample']:
-    problem_yaml['examples'].append({'input': inp, 'output': outp})
+shutil.copy(os.path.join(problem_dir, 'problem.py'), os.path.join(output_dir, 'problem.py'))
 
 with open(os.path.join(output_dir, 'problem.yml'), 'w') as f:
     yaml.dump(problem_yaml, stream=f)
 
-os.mkdir(os.path.join(output_dir, 'tests'))
-for test_type in tests:
-    for test, inp, outp in tests[test_type]:
-        with open(os.path.join(output_dir, 'tests', test + '.in'), 'w') as f:
-            f.write(inp)
-        with open(os.path.join(output_dir, 'tests', test + '.out'), 'w') as f:
-            f.write(outp)
 

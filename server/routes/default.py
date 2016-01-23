@@ -4,7 +4,7 @@ import datetime
 import lib.text as text
 from flask import redirect, abort, render_template, request, session, send_from_directory, Blueprint, current_app as app
 from server.data import ScoreboardTeamProblem, Contest
-from lib.models import Submission, SubmissionQueue
+from lib.models import Submission
 from server.util import url_for, get_team, is_logged_in, login_required
 
 default = Blueprint("default", __name__, template_folder="../templates")
@@ -34,12 +34,14 @@ def view_scoreboard(opts):
 
         cur = sb[sub.team][sub.problem]
 
-        if (phase.frozen is not None and sub.submitted >= app.contest.second_format(60.0 * phase.frozen) and (not is_logged_in() or get_team().name != sub.team)) or sub.verdict == 'QU':
+        if (phase.frozen is not None and \
+          sub.submitted >= app.contest.second_format(60.0 * phase.frozen) and \
+          (not is_logged_in() or get_team().name != sub.team)):
             cur.submit_new()
-        elif sub.verdict not in {'SE', 'RF', 'CJ', 'CE'}:
-            cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.verdict == 'AC')
+        elif sub.score > 0:
+            cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score)
 
-    ssb = sorted((-sum(sb[team][problem].is_solved() for problem in phase.scoreboard_problems),
+    ssb = sorted((-sum(sb[team][problem].score() for problem in phase.scoreboard_problems),
                   sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems),
                   team) for team in sb.keys())
 
@@ -58,40 +60,16 @@ def list_submissions():
     cur_time = datetime.datetime.now()
     submissions = Submission.query.filter_by(team=team.name).filter(Submission.submitted <= cur_time).order_by(Submission.submitted).all()
 
-    def format_verdict_classes(vs):
-        vs = set(vs.split('+'))
-        if vs <= {'QU'}:
-            return 'info'
-        if vs <= {'AC'}:
+    def format_verdict_classes(score):
+        if score >= 0:
             return 'success'
-        if vs <= {'SE', 'RF', 'CJ', 'CE'}:
-            return 'warning'
-        if vs <= {'PE', 'WA', 'RE', 'TL', 'ML', 'OL'}:
+        else:
             return 'danger'
         return ''
-
-    label_class = {
-        'QU': 'info',
-        'AC': 'success',
-        'PE': 'warning',
-        'WA': 'danger',
-        'CE': 'warning',
-        'RE': 'danger',
-        'TL': 'danger',
-        'ML': 'danger',
-        'OL': 'danger',
-        'SE': 'default',
-        'RF': 'default',
-        'CJ': 'default',
-    }
-
-    def label_class_for(v):
-        return "label label-" + label_class.get(v, 'default')
 
     return render_template('submissions.html',
                            submissions=reversed(submissions),
                            format_verdict_classes=format_verdict_classes,
-                           label_class_for=label_class_for
                            )
 
 
@@ -122,9 +100,7 @@ def view_problem(problem_id, sub_id):
             return redirect(url_for('default.login', next=request.path))
 
         team = get_team()
-        if (
-                'language' in request.form and
-                ('answer_file' in request.files or 'answer' in request.form)):
+        if ('answer_file' in request.files or 'answer' in request.form):
 
             if 'answer_file' in request.files:
                 answer = request.files['answer_file'].read()
@@ -136,18 +112,20 @@ def view_problem(problem_id, sub_id):
             if 'answer_file' not in request.files or not answer:
                 answer = request.form['answer']
 
+            score, response = problem.score(answer)
+
             sub = Submission(
                 team=team.name,
                 problem=problem_id,
                 answer=answer,
-                submitted=datetime.datetime.now()
+                submitted=datetime.datetime.now(),
+                score=score,
+                judge_response=response
             )
 
-            team.last_used_language = request.form['language']
 
             app.db.session.add(sub)
             app.db.session.flush()
-            app.db.session.add(SubmissionQueue(submission_id=sub.id))
             app.db.session.commit()
         else:
             abort(400)

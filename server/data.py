@@ -6,6 +6,7 @@ import sys
 DIR = os.path.join(os.path.dirname(__file__), "..")
 sys.path.append(DIR)
 from lib.yamllib import load
+from importlib.machinery import SourceFileLoader
 
 processor = markdown.Markdown(extensions=['mathjax'])
 
@@ -82,28 +83,22 @@ class Judge:
         return judges
 
 
-class Example:
-    def __init__(self, input, output, explanation=None, display='normal'):
-        self.input = input
-        self.output = output
-        self.explanation = explanation
-        self.display = display
-
-        if self.explanation is not None:
-            self.explanation = processor.convert(self.explanation)
-
-
 class Problem:
-    def __init__(self, id, title, statement, examples, assets, show_title=True):
+    def __init__(self, id, title, points, problem, statement, assets):
         self.id = id
         self.title = title
+        self.points = points
         self.statement = statement
-        self.examples = examples
         self.assets = assets
-        self.show_title = show_title
+        self.problem = problem
+        self.problem_module = SourceFileLoader("problem." + self.id, self.problem).load_module()
+        self._grader = self.problem_module.grade
 
     def __repr__(self):
         return '<Problem %s>' % repr(self.title)
+
+    def score(self, answer):
+        return self._grader(answer)
 
     @staticmethod
     def load(path, id):
@@ -111,34 +106,12 @@ class Problem:
 
         problem = load(path)
 
-        statement = os.path.splitext(path)[0] + '.md'
-        md = True
-
-        if not os.path.isfile(md):
-            statement = pjoin(os.path.dirname(path), 'statement.md')
-            md = True
-
-        if not os.path.isfile(md):
-            statement = pjoin(os.path.dirname(path), 'statement', 'index.html')
-            md = False
+        statement = pjoin(os.path.dirname(path), 'statement', 'index.html')
 
         assert os.path.isfile(statement)
 
         with open(statement, encoding='utf-8') as f:
             statement = f.read()
-
-        if md:
-            statement = processor.convert(statement)
-            examples = [
-                Example(
-                    input=x.get('input', ''),
-                    output=x.get('output', ''),
-                    explanation=x.get('explanation'),
-                    display=x.get('display', 'normal')
-                ) for x in problem.get('examples', [])
-            ]
-        else:
-            examples = []
 
         dpath = os.path.dirname(path)
         if os.path.isdir(pjoin(dpath, 'assets')):
@@ -151,9 +124,9 @@ class Problem:
         return Problem(
             id=id,
             title=problem['title'],
-            show_title=md,
+            points=problem['points'],
+            problem=pjoin(dpath, 'problem.py'),
             statement=statement,
-            examples=examples,
             assets=assets,
         )
 
@@ -311,20 +284,26 @@ class ScoreboardTeamProblem:
         self.solved_at = None
         self.try_count = 0
         self.new_submissions = 0
+        self.score = 0
+        self.current_count = 0
 
-    def submit(self, at, solved):
-        if self.solved_at is None:
-            if solved:
-                self.solved_at = at
-            else:
-                self.try_count += 1
+    def submit(self, at, score):
+        if score > self.score:
+            self.solved_at = at
+            self.score = score
+            self.try_count += self.current_count
+        else:
+            self.current_count += 1
 
     def submit_new(self):
         if self.solved_at is None:
             self.new_submissions += 1
 
+    def score(self):
+        return score
+
     def is_solved(self):
-        return self.solved_at is not None
+        return self.score()>0
 
     def time_penalty(self):
         if not self.is_solved():

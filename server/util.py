@@ -64,10 +64,10 @@ def context_processor():
         cur_time = datetime.datetime.now()
         subs = Submission.query.filter(Submission.submitted <= cur_time).filter_by(team=team.name).all()
         for sub in subs:
-            if sub.verdict == 'AC':
+            if sub.score > 0:
                 solved.add(sub.problem)
                 tried.add(sub.problem)
-            elif sub.verdict not in {'SE', 'RF', 'CJ', 'QU', 'CE'}:
+            else:
                 tried.add(sub.problem)
 
     return dict(

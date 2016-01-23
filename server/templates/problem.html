@@ -7,56 +7,7 @@
     <div class="problem">
 
         <div id="problem_description">
-
-            {% if problem.show_title %}
-                <h1>{{ problem.title | safe }}</h1>
-            {% endif %}
-
             {{ problem.statement | safe }}
-
-            {% for i, x in enumerate(problem.examples) %}
-                {% if len(problem.examples) > 1 %}
-                    <h2>Example {{ i+1 }}</h2>
-                {% else %}
-                    <h2>Example</h2>
-                {% endif %}
-
-                {% if x.display == 'normal' %}
-                    <table class="example table table-bordered">
-                        <tr>
-                            <th>Input</th>
-                            <th>Output</th>
-                        </tr>
-                        <tr>
-                            <td><pre>{{ x.input }}</pre></td>
-                            <td><pre>{{ x.output }}</pre></td>
-                        </tr>
-                    </table>
-                {% elif x.display == 'large' %}
-                    <table class="example table table-bordered">
-                        <tr>
-                            <th>Input</th>
-                        </tr>
-                        <tr>
-                            <td><pre>{{ x.input }}</pre></td>
-                        </tr>
-                    </table>
-                    <table class="example table table-bordered">
-                        <tr>
-                            <th>Output</th>
-                        </tr>
-                        <tr>
-                            <td><pre>{{ x.output }}</pre></td>
-                        </tr>
-                    </table>
-                {% endif %}
-
-                {% if x.explanation %}
-                    <h4>Explanation</h4>
-                    <p>{{ x.explanation | safe }}</p>
-                {% endif %}
-            {% endfor %}
-
         </div>
 
         {% if problem.id in phase.submit_problems %}
