@@ -19,7 +19,7 @@ class Submission(Base):
     problem = Column(String(200), nullable=False)
     language = Column(String(200), nullable=False)
     file = Column(Text(), nullable=False)
-    # submitted = Column(Float(), nullable=False) 
+    # submitted = Column(Float(), nullable=False)
     submitted = Column(DateTime(), nullable=False)
     verdict = Column(String(20), default='QU', nullable=False)
     judge_response = Column(Text())
@@ -85,4 +85,5 @@ def register_base(db):
     db.Model = Base
     for c in Base._decl_class_registry.values():
         # Add the query class to each of the models.
-        c.query = db.session.query_property()
+        if hasattr(c, "query"):
+            c.query = db.session.query_property()
