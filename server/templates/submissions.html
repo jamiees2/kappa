@@ -9,15 +9,15 @@
             <th class="sub_submitted">Submitted</th>
             <th class="sub_team">Team</th>
             <th class="sub_problem">Problem</th>
-            <th class="sub_verdict">Score</th>
+            <th class="sub_verdict">Points</th>
         </tr>
         {% for sub in submissions %}
-            <tr class="row-success {{ format_verdict_classes(sub.score) }}">
+            <tr class="row-success {{ format_verdict_classes(sub.points) }}">
                 <td class="sub_id"><a href="{{ url_for('default.view_submission', sub_id=sub.id) }}">{{ sub.id }}</a></td>
                 <td class="sub_submitted">{{ sub.submitted | format_time }}</td>
                 <td class="sub_team">{{ sub.team }}</td>
                 <td class="sub_problem"><a href="{{ url_for('default.view_problem', problem_id=sub.problem) }}">{{ contest.problems[sub.problem].title | safe }}</a></td>
-                <td class="sub_score"><span>{{sub.score}}</span></td>
+                <td class="sub_score"><span>{{sub.points}}</span></td>
             </tr>
         {% endfor %}
     </table>

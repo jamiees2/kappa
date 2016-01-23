@@ -38,10 +38,10 @@ def view_scoreboard(opts):
           sub.submitted >= app.contest.second_format(60.0 * phase.frozen) and \
           (not is_logged_in() or get_team().name != sub.team)):
             cur.submit_new()
-        elif sub.score > 0:
-            cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score)
+        elif sub.points > 0:
+            cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score, sub.points)
 
-    ssb = sorted((-sum(sb[team][problem].score() for problem in phase.scoreboard_problems),
+    ssb = sorted((-sum(sb[team][problem].points() for problem in phase.scoreboard_problems),
                   sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems),
                   team) for team in sb.keys())
 
@@ -60,8 +60,8 @@ def list_submissions():
     cur_time = datetime.datetime.now()
     submissions = Submission.query.filter_by(team=team.name).filter(Submission.submitted <= cur_time).order_by(Submission.submitted).all()
 
-    def format_verdict_classes(score):
-        if score >= 0:
+    def format_verdict_classes(points):
+        if points >= 0:
             return 'success'
         else:
             return 'danger'
@@ -120,6 +120,7 @@ def view_problem(problem_id, sub_id):
                 answer=answer,
                 submitted=datetime.datetime.now(),
                 score=score,
+                points=int(round((score/100) * problem.points)),
                 judge_response=response
             )
 

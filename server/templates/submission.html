@@ -5,7 +5,6 @@
 {% block content %}
     <h3>Details for submission {{ submission.id }}</h3>
     <h5>Team {{ submission.team }}, problem {{ contest.problems[submission.problem].title | safe }}, submitted at {{ submission.submitted | format_time }}</h5>
-    {# <pre><code>{{ submission.file }}</code></pre> #}
     <textarea id="answer">{{ submission.answer }}</textarea>
     <div class="form-group">
         <h4>Actions:</h4>
@@ -13,7 +12,8 @@
         <a href="{{url_for('default.view_problem', problem_id=submission.problem, sub_id=submission.id)}}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
     </div>
     <hr />
-    <h4>Verdict: {{ submission.score }}</h4>
+    <h4>Score: {{ submission.score }}/100</h4>
+    <h4>Points: {{ submission.points }}</h4>
     <hr />
     {% if submission.judge_response != None %}
         {{ submission.judge_response | safe }}

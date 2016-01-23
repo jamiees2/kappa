@@ -284,13 +284,15 @@ class ScoreboardTeamProblem:
         self.solved_at = None
         self.try_count = 0
         self.new_submissions = 0
-        self.score = 0
+        self._score = 0
+        self._points = 0
         self.current_count = 0
 
-    def submit(self, at, score):
-        if score > self.score:
+    def submit(self, at, score, points):
+        if score > self._score:
             self.solved_at = at
-            self.score = score
+            self._score = score
+            self._points = points
             self.try_count += self.current_count
         else:
             self.current_count += 1
@@ -300,7 +302,10 @@ class ScoreboardTeamProblem:
             self.new_submissions += 1
 
     def score(self):
-        return score
+        return self._score
+
+    def points(self):
+        return self._points
 
     def is_solved(self):
         return self.score()>0
@@ -308,7 +313,7 @@ class ScoreboardTeamProblem:
     def time_penalty(self):
         if not self.is_solved():
             return 0
-        return self.solved_at + self.try_count * 20.0 * 60.0
+        return self.solved_at + self.try_count * 5.0 * 60.0
 
 
 class Balloon:

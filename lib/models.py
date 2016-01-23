@@ -21,10 +21,10 @@ class Submission(Base):
     # submitted = Column(Float(), nullable=False)
     submitted = Column(DateTime(), nullable=False)
     score = Column(Integer, default=0, nullable=False)
-
+    points = Column(Integer, default=0, nullable=False)
     judge_response = Column(Text())
 
-    def __init__(self, team, problem, answer, submitted=None, score=0, judge_response=None):
+    def __init__(self, team, problem, answer, submitted=None, score=0, points=0, judge_response=None):
         self.team = team
         self.problem = problem
         self.answer = answer
@@ -33,6 +33,7 @@ class Submission(Base):
         else:
             self.submitted = submitted
         self.score = score
+        self.points = points
         self.judge_response = judge_response
 
 
