@@ -13,3 +13,5 @@ problems/build_contest <contest_dir>
 ```
 
 For the contest format, see an example contest at `example_contest`.
+
+Based on &epsilon;, see [epsilon](https://github.com/ForritunarkeppniFramhaldsskolanna/epsilon)
