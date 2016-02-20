@@ -91,6 +91,7 @@ def view_problem(problem_id, sub_id):
     phase = app.contest.get_current_phase()
 
     team = get_team()
+    sub = None
     if not problem:
         abort(404)
     if request.method == 'POST':
@@ -136,7 +137,7 @@ def view_problem(problem_id, sub_id):
     if problem_id not in phase.visible_problems:
         abort(404)
 
-    sub = None
+    
     if sub_id is not None:
         team = get_team()
         sub = Submission.query.filter_by(id=sub_id).first()
