@@ -38,6 +38,10 @@ problem_yaml['points'] = pdata['points']
 
 shutil.copy(os.path.join(problem_dir, 'problem.py'), os.path.join(output_dir, 'problem.py'))
 
+static = os.path.join(problem_dir, 'problem_statement', 'static')
+if os.path.exists(static):
+    shutil.copytree(static, os.path.join(output_dir, 'static'))
+
 with open(os.path.join(output_dir, 'problem.yml'), 'w') as f:
     yaml.dump(problem_yaml, stream=f)
 

@@ -11,6 +11,12 @@ BUILD_PROBLEM = os.path.join(DIR, 'build_problem')
 
 contest = sys.argv[1]
 
+output_dir = os.path.join(contest, '.epsilon')
+
+if os.path.exists(output_dir):
+    shutil.rmtree(output_dir)
+os.mkdir(output_dir)
+
 for problem in os.listdir(os.path.join(contest, 'problems')):
     problem_dir = os.path.join(contest, 'problems', problem)
     if os.path.isfile(os.path.join(problem_dir, 'problem.yaml')):
@@ -18,4 +24,8 @@ for problem in os.listdir(os.path.join(contest, 'problems')):
         p = Popen([BUILD_PROBLEM, problem_dir])
         if p.wait() != 0:
             sys.exit(1)
+        static = os.path.join(problem_dir, '.epsilon', 'static')
+        if os.path.isdir(static):
+            shutil.copytree(static, os.path.join(output_dir, problem))
+
 

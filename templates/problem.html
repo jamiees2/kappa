@@ -20,12 +20,12 @@
                     {% if team %}
                         {% if max_sub %}
                             <div class="row">
-                                <div class="alert alert-success" role="alert"><b>Max score: {{ max_sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ max_sub.judge_response }}</span></div>
+                                <div class="alert alert-success" role="alert"><b>Score: {{ max_sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ max_sub.judge_response }}</span></div>
                             </div>
                         {% endif %}
                         {% if sub %}
                             <div class="row">
-                                <div class="alert alert-info" role="alert"><b>Score: {{ sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ sub.judge_response }}</span></div>
+                                <div class="alert alert-info" role="alert"><b>Score for last submission: {{ sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ sub.judge_response }}</span></div>
                             </div>
                         {% endif %}
                         <div class="row">
