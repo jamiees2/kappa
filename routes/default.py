@@ -144,9 +144,12 @@ def view_problem(problem_id, sub_id):
         if not sub or sub.team != team.name:
             abort(404)
     if team:
-        max_sub = Submission.query.filter_by(problem=problem_id, team=team.name).order_by(Submission.points.desc()).first()
+        max_sub = Submission.query.filter_by(problem=problem_id, team=team.name).order_by(Submission.points.desc(), Submission.submitted.desc()).first()
     else:
         max_sub = None
+
+    if max_sub is not None and sub is not None and max_sub.id == sub.id:
+        sub = None
     return render_template('problem.html', problem=problem, sub=sub, max_sub=max_sub)
 
 
