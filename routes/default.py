@@ -142,7 +142,10 @@ def view_problem(problem_id, sub_id):
         sub = Submission.query.filter_by(id=sub_id).first()
         if not sub or sub.team != team.name:
             abort(404)
-    max_sub = Submission.query.filter_by(problem=problem_id, team=team.name).order_by(Submission.points.desc()).first()
+    if team:
+        max_sub = Submission.query.filter_by(problem=problem_id, team=team.name).order_by(Submission.points.desc()).first()
+    else:
+        max_sub = None
     return render_template('problem.html', problem=problem, sub=sub, max_sub=max_sub)
 
 
