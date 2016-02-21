@@ -76,7 +76,8 @@ table a {
   width: 0;
   margin-left: -250px;
   /*background: rgb(13, 164, 93);*/
-  background: #111;
+  /*background: #111;*/
+  background: #4E4E4E;
   padding-top: 50px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -119,7 +120,8 @@ table a {
 }
 .problem-list {
   /*background: rgb(13, 164, 93);*/
-  background: #111;
+  /*background: #111;*/
+  background: none;
   padding: 0;
   padding-top: 20px;
   overflow: hidden;
