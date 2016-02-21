@@ -19,6 +19,10 @@ table a {
     color: #1f84c7;
 }
 
+.btn-success {
+  background: rgb(13, 164, 93);
+}
+
 .navbar.navbar-default {
   background: rgb(13, 164, 93);
   border-color: transparent;
