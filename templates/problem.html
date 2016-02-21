@@ -35,6 +35,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                            </div>
+                            <div id="submit_wrapper" class="col-sm-2">
+                                <button id="submit_answer" class="btn btn-success form-control">Submit</button>
+                            </div>
+                        </div>
                     {% else %}
                         <div>Sorry. You have to be <a href="{{ url_for('default.login') }}">logged in</a> to submit your solution.</div>
                     {% endif %}
