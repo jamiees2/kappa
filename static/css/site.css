@@ -19,6 +19,15 @@ table a {
     color: #1f84c7;
 }
 
+.navbar.navbar-default {
+  background: rgb(13, 164, 93);
+  border-color: transparent;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: white;
+}
+
 /*#header .dropdown-menu li a {
     color: rgb(51, 51, 51);
     text-shadow: none;
@@ -66,7 +75,8 @@ table a {
   bottom: 0;
   width: 0;
   margin-left: -250px;
-  background: rgb(13, 164, 93);
+  /*background: rgb(13, 164, 93);*/
+  background: #111;
   padding-top: 50px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -108,7 +118,8 @@ table a {
   }
 }
 .problem-list {
-  background: rgb(13, 164, 93);
+  /*background: rgb(13, 164, 93);*/
+  background: #111;
   padding: 0;
   padding-top: 20px;
   overflow: hidden;
@@ -131,8 +142,8 @@ table a {
 }
 
 .problem-list li.ac a {
-    /*background-color: #d5ecbf;*/
-    background-color: #d9edf7;
+    background-color: #d5ecbf;
+    /*background-color: #d9edf7;*/
     /*color: #1f84c7;*/
     color: #444;
 
