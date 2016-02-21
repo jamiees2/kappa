@@ -148,14 +148,17 @@ table a {
     /*background-color: #d9edf7;*/
     background-color: rgb(13, 164, 93);
     /*color: #1f84c7;*/
-    color: #444;
+    /*color: #444;*/
+    color: white;
 
 }
 
 .problem-list li.wa a {
-    background-color: #f2bdb1;
+    /*background-color: #f2bdb1;*/
+    background-color: rgb(247, 98, 64);
     /*color: #1f84c7;*/
-    color: #444;
+    /*color: #444;*/
+    color: white;
 }
 
 .problem-list>li.active>a, .problem-list>li>a:focus, .problem-list>li>a:hover {
