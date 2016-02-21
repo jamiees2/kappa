@@ -144,8 +144,9 @@ table a {
 }
 
 .problem-list li.ac a {
-    background-color: #d5ecbf;
+    /*background-color: #d5ecbf;*/
     /*background-color: #d9edf7;*/
+    background-color: rgb(13, 164, 93);
     /*color: #1f84c7;*/
     color: #444;
 
