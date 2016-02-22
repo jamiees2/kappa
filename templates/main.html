@@ -29,13 +29,13 @@
                         <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ team.name }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ url_for('default.logout') }}"><i class="fa fa-user-times"></i> Log out</a></li>
+                                <li><a href="{{ url_for('default.logout') }}"><i class="fa fa-user-times"></i> Skrá út</a></li>
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="{{ url_for('default.login') }}"><i class="fa fa-user"></i> Log in</a></li>
+                        <li><a href="{{ url_for('default.login') }}"><i class="fa fa-user"></i> Skrá inn</a></li>
                         {% if contest.register %}
-                            <li><a href="{{ url_for('default.register') }}"><i class="fa fa-plus"></i> Register</a></li>
+                            <li><a href="{{ url_for('default.register') }}"><i class="fa fa-plus"></i> Nýskrá</a></li>
                         {% endif %}
                     {% endif %}
                 </ul>
@@ -49,12 +49,12 @@
     <div class="sidebar-wrapper">
         <ul class="nav sidebar nav-stacked problem-list">
             {% if phase.scoreboard_problems %}
-                <li><a href="{{ url_for('default.view_scoreboard') }}"><i class="fa fa-flag"></i> Scoreboard</a></li>
+                <li><a href="{{ url_for('default.view_scoreboard') }}"><i class="fa fa-flag"></i> Stigatafla</a></li>
             {% endif %}
             {% if team %}
-                <li><a href="{{ url_for('default.list_submissions') }}"><i class="fa fa-check-square-o"></i> Submissions</a></i>
+                <li><a href="{{ url_for('default.list_submissions') }}"><i class="fa fa-check-square-o"></i> Mínar lausnir</a></i>
             {% endif %}
-            <!-- <li class="nav-header">Problems</li> -->
+            <!-- <li class="nav-header">Verkefni</li> -->
             {% if phase.problem_list %}
                 {% set cnt = 1 %}
                 {% for k, v in phase.problem_list %}
@@ -72,7 +72,7 @@
                     {% endif %}
                 {% endfor %}
             {% else %}
-                <li>No problems available</li>
+                <li>Engin verkefni komin ennþá</li>
             {% endif %}
         </ul>
     </div>
@@ -90,7 +90,7 @@
     <div class="row">
         <div class="col-xs-12 footer">
             <hr />
-            generated in {{ "%.04f" % (g.request_time() * 1000.0) }}ms by <span class="kappa" title="kappa">&kappa;</span>
+            framleitt á {{ "%.04f" % (g.request_time() * 1000.0) }}ms af <span class="kappa" title="kappa">&kappa;</span>
         </div>
     </div>
 

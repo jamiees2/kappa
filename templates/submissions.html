@@ -1,15 +1,15 @@
 {% extends "main.html" %}
 {% block title %}
-{{ contest.title }} - submissions
+{{ contest.title }} - mínar lausnir
 {% endblock %}
 {% block content %}
     <table class="table table-condensed submissions">
         <tr>
-            <th class="sub_id">ID</th>
-            <th class="sub_submitted">Submitted</th>
-            <th class="sub_team">Team</th>
-            <th class="sub_problem">Problem</th>
-            <th class="sub_verdict">Points</th>
+            <th class="sub_id">#</th>
+            <th class="sub_submitted">Skilað inn</th>
+            <th class="sub_team">Lið</th>
+            <th class="sub_problem">Verkefni</th>
+            <th class="sub_verdict">Stig</th>
         </tr>
         {% for sub in submissions %}
             <tr class="row-success {{ format_verdict_classes(sub.points) }}">

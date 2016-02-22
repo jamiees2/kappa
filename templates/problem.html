@@ -14,18 +14,18 @@
             <form id="problem_form" class="form-inline" action="" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <div id="legend">
-                        <legend><h2>Submit</h2></legend>
+                        <legend><h2>Skila inn lausn</h2></legend>
                     </div>
 
                     {% if team %}
                         {% if max_sub %}
                             <div class="row">
-                                <div class="alert alert-success" role="alert"><b>Score: {{ max_sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ max_sub.judge_response }}</span><span class="clearfix"></span></div>
+                                <div class="alert alert-success" role="alert"><b>Stig: {{ max_sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ max_sub.judge_response }}</span><span class="clearfix"></span></div>
                             </div>
                         {% endif %}
                         {% if sub %}
                             <div class="row">
-                            <div class="alert alert-info" role="alert"><b>Score for last submission: {{ sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ sub.judge_response }}</span><span class="clearfix"></span></div>
+                            <div class="alert alert-info" role="alert"><b>Stig fyrir síðustu lausn: {{ sub.points }}/{{ problem.points }}</b><span class="pull-right">{{ sub.judge_response }}</span><span class="clearfix"></span></div>
                             </div>
                         {% endif %}
                         <div class="row">
@@ -39,11 +39,11 @@
                             <div class="col-sm-10">
                             </div>
                             <div id="submit_wrapper" class="col-sm-2">
-                                <button id="submit_answer" class="btn btn-success form-control">Submit</button>
+                                <button id="submit_answer" class="btn btn-success form-control">Skila</button>
                             </div>
                         </div>
                     {% else %}
-                        <div>Sorry. You have to be <a href="{{ url_for('default.login') }}">logged in</a> to submit your solution.</div>
+                        <div>Því miður þarftu að vera <a href="{{ url_for('default.login') }}">skráð(ur) inn</a> til að skila inn lausn.</div>
                     {% endif %}
                 </fieldset>
             </form>

@@ -4,12 +4,12 @@
 <form class="form-horizontal form-signin" action="" method="post">
     <fieldset>
         <div id="legend">
-            <legend class="">Register</legend>
+            <legend class="">Nýskráning</legend>
         </div>
 
         {% if error %}
             <div class="alert alert-danger">
-                <h4>Registration unsuccessful!</h4>
+                <h4>Nýskráning gekk upp!</h4>
                 <ul>
                     {% for e in error %}
                         <li>{{ e }}</li>
@@ -19,22 +19,22 @@
         {% endif %}
 
         <div class="form-group">
-            <label class="control-label" for="team">Team name</label>
+            <label class="control-label" for="team">Notendanafn</label>
             <input type="text" id="team" name="team" value="{{ team_name }}" class="input-xlarge form-control">
         </div>
 
         <div class="form-group">
-            <label class="control-label" for="password">Password</label>
+            <label class="control-label" for="password">Lykilorð</label>
             <input type="password" id="password" name="password" placeholder="" class="input-xlarge form-control">
         </div>
 
         <div class="form-group">
-            <label class="control-label" for="confirm_password">Confirm password</label>
+            <label class="control-label" for="confirm_password">Lykilorð aftur</label>
             <input type="password" id="confirm_password" name="confirm_password" placeholder="" class="input-xlarge form-control">
         </div>
 
         <div class="form-group">
-            <button class="btn btn-success">Register</button>
+            <button class="btn btn-success">Nýskrá</button>
         </div>
     </fieldset>
 </form>
