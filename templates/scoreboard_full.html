@@ -45,9 +45,9 @@
                     {% endif %}
 
                         {% if problem.solved_at == None %}
-                        --:--
+                        --
                         {% else %}
-                            {{ problem.solved_at | format_time }}
+                            {{ problem.points() }}
                         {% endif %}
 
                         {% if problem.try_count > 0 or problem.new_submissions > 0 %}
