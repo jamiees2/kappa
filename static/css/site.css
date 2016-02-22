@@ -145,6 +145,7 @@ table a {
 
 .problem-list li {
     overflow-wrap: break-word;
+    color: white;
 }
 
 .problem-list li.ac a {
