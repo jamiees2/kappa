@@ -1,29 +1,31 @@
 {% extends "main.html" %}
 {% block content %}
     <div class="hero-unit offset2 span7">
-        <h1>Hello there{{ ', %s' % team.name if team else '' }}!</h1>
+        <h1>Halló{{ ', %s' % team.name if team else '' }}!</h1>
         <p>
             {% if contest.status() == contest.BEFORE_START %}
                 {% set hrs = int(1 + contest.time_to_start() / 60 / 60) %}
-                You feeling excited yet? The contest starts in less than {{ hrs }} hour{{ '' if hrs == 1 else 's' }}.
+                Ertu ekki orðin(n) spennt(ur)? Keppnin byrjar eftir minna en {{ hrs }} klukkutíma.
                 {% if not team %}
-                    You have to be logged in to submit your solutions, so you might as well go ahead and <a href="{{ url_for('default.login') }}">log in</a> now.
+                    Þú þarft að vera skráð(ur) inn til að skila inn lausnum, svo þú ættir að drífa þig að <a href="{{ url_for('default.login') }}">skrá þig inn</a>.
+                    Svo þarftu bara að hinkra eftir að keppnin byrji.
                 {% else %}
-                    I can see that you're already logged in. Awesome!
+                    Þú ert nú þegar skráð(ur) inn. Geggjað!
+                    Nú þarftu bara að hinkra eftir að keppnin byrji.
                 {% endif %}
-                Well, that's all for now. Good luck and may the force be with you!
+                Megi mátturinn vera með þér!
             {% elif contest.status() == contest.RUNNING %}
-                The contest has begun. Woohoo!
-                If you haven't already, go ahead and pick a problem from the list to the left.
+                Keppnin er byrjuð. Vúhú!
+                Ef þú hefur ekki þegar byrjað geturðu skoðað listann hér til vinstri og valið þér dæmi.
                 {% if not team %}
-                    You don't seem to be logged in though, so you won't be able to submit your solutions.
-                    Maybe you should go ahead and <a href="{{ url_for('default.login') }}">log in</a> before you pick a problem?
+                    Þú ert samt ekki búin(n) að skrá þig inn, þannig þú munt ekki geta skilað inn lausnum.
+                    Kannski ættirðu bara að byrja á því að <a href="{{ url_for('default.login') }}">skrá þig inn</a> áður en þú ferð að leysa dæmi?
                 {% endif %}
-                Anyway, we hope you're doing well!
+                Við vonum að þér gangi vel!
             {% else %}
-                The contest has finished. That was awesome!
-                You can take take a look at the final standings in the <a href="{{ url_for('default.view_scoreboard') }}">scoreboard</a>, or pick a problem from the list to the left and try for yourself.
-                We hope you enjoyed the contest!
+                Keppnin er búin. Þetta var nú gaman!
+                Þú getur skoðað lokaniðurstöðurnar í <a href="{{ url_for('default.view_scoreboard') }}">stigatöflunni</a>, eða skoðað dæmin í listanum hér til vinstri.
+                Vonandi fannst þér keppnin skemmtileg!
             {% endif %}
         </p>
     </div>

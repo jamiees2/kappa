@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block title %}
-{{ contest.title }} - scoreboard
+{{ contest.title }} - stigatafla
 {% endblock %}
 {% block body %}
 <style type="text/css">body{padding-top:0;}</style>
 <div class="content">
 
     {% if phase.frozen != None and contest.time_elapsed() >= 60.0 * phase.frozen %}
-        <h4>The scoreboard has been frozen</h4>
+        <h4>Stigataflan hefur verið fryst</h4>
     {% endif %}
 
     <table class="table table-bordered table-striped scoreboard">
         <tr>
             <th>#</th>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Penalty</th>
+            <th>Lið</th>
+            <th>Stig</th>
+            <th>Refsing</th>
             {% for i, problem in enumerate(phase.scoreboard_problems) %}
                 {# <th>{{ contest.problems[problem].title }}</th> #}
                 <th title="{{ contest.problems[problem].title }}">{{ i+1 }}</th>
