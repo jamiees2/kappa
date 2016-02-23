@@ -286,9 +286,10 @@ class ScoreboardTeamProblem:
         return self.score()>0
 
     def time_penalty(self):
-        if not self.is_solved():
-            return 0
-        return self.solved_at + self.try_count * 5.0 * 60.0
+        return 0
+        # if not self.is_solved():
+        #     return 0
+        # return self.solved_at + self.try_count * 5.0 * 60.0
 
 
 class Balloon:
