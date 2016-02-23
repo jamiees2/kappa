@@ -41,11 +41,23 @@ def view_scoreboard(opts):
         else:
             cur.submit((sub.submitted - app.contest.start).total_seconds(), sub.score, sub.points)
 
-    ssb = sorted((-sum(sb[team][problem].points() for problem in phase.scoreboard_problems),
-                  sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems),
-                  team) for team in sb.keys())
+    def get_sort_key(team):
+        return (-sum(sb[team][problem].points() for problem in phase.scoreboard_problems), sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems))
 
-    sb = [(s[2], -s[0], s[1], sb[s[2]]) for s in ssb]
+    sb = []
+    lastkey = None
+    lastpos = 0
+    for i,team in enumerate(sorted(sb.keys(), key=get_sort_key)):
+        key = get_sort_key(team)
+        pos = i+1
+        if lastkey is not None and lastkey == key:
+            pos = lastpos
+        else:
+            lastpos = pos
+            lastkey = key
+
+        sb.append((pos, team, -key[0], key[1], sb[team]))
+        # sb = [(s[2], -s[0], s[1], sb[s[2]]) for s in ssb]
 
     if opts.get('full', False):
         return render_template('scoreboard_full.html', scoreboard=sb)
