@@ -44,7 +44,7 @@ def view_scoreboard(opts):
     def get_sort_key(team):
         return (-sum(sb[team][problem].points() for problem in phase.scoreboard_problems), sum(sb[team][problem].time_penalty() for problem in phase.scoreboard_problems))
 
-    sc = []
+    sb = []
     lastkey = None
     lastpos = 0
     for i,team in enumerate(sorted(sb.keys(), key=get_sort_key)):
@@ -56,13 +56,13 @@ def view_scoreboard(opts):
             lastpos = pos
             lastkey = key
 
-        sc.append((pos, team, -key[0], key[1], sb[team]))
+        sb.append((pos, team, -key[0], key[1], sb[team]))
         # sb = [(s[2], -s[0], s[1], sb[s[2]]) for s in ssb]
 
     if opts.get('full', False):
-        return render_template('scoreboard_full.html', scoreboard=sc)
+        return render_template('scoreboard_full.html', scoreboard=sb)
     else:
-        return render_template('scoreboard.html', scoreboard=sc)
+        return render_template('scoreboard.html', scoreboard=sb)
 
 
 @default.route('/submissions/')
