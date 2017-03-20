@@ -1,7 +1,8 @@
 # kappa
 
 A project euler like contest environment.
-# Setup
+
+## Setup
 dependencies:
 To run this software you must first install all dependencies specified in problemtools : [problemtools](https://github.com/Kattis/problemtools/tree/121bf4eff7679cebc1104c1e1146f072f8ff449d)
 
@@ -30,7 +31,7 @@ sudo su - postgres
 ./db/setup_db.sh epsilon "The secret you created earlier" epsilon
 ```
 
-# Run
+## Run
 Starting the program:
 ```
 python3 kappa.py <contest_dir>
@@ -40,7 +41,7 @@ Build a contest:
 ```
 problems/build_contest <contest_dir>
 ```
-# creating problems
+## creating problems
 For the contest format, see an example contest at `example_contest`.
 
 Based on &epsilon;, see [epsilon](https://github.com/ForritunarkeppniFramhaldsskolanna/epsilon)
