@@ -153,7 +153,7 @@ def view_problem(problem_id, sub_id):
     return render_template('problem.html', problem=problem, sub=sub, max_sub=max_sub)
 
 
-# @default.route('/problem/<problem_id>/assets/<path:asset>')
+#@default.route('/problem/<problem_id>/assets/<path:asset>')
 @default.route('/problem/<problem_id>/<path:asset>')
 def get_problem_asset(problem_id, asset):
     problem = app.contest.problems.get(problem_id)
@@ -163,10 +163,18 @@ def get_problem_asset(problem_id, asset):
 
     if not problem.assets:
         abort(404)
-
     return send_from_directory(problem.assets, asset)
+@default.route('/problem-static/<problem_id>/<filename>')
+def getProbStatic(problem_id, filename):
+    problem = app.contest.problems.get(problem_id)
+    phase = app.contest.get_current_phase()
+    if not problem or problem_id not in phase.visible_problems:
+        abort(404)
 
-
+    if not problem.assets:
+        abort(404)
+    staticd = problem.assets.replace('problems/'+problem_id+'/.epsilon/statement','.epsilon/' + problem_id)
+    return send_from_directory(staticd, filename)
 @default.route('/login/', methods={'GET', 'POST'})
 def login():
     goto = request.args.get('next', url_for('index'))
