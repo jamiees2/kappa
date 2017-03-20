@@ -5,7 +5,7 @@ import argparse
 import time
 import datetime
 from flask import Flask, g, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from data import Contest
 import lib.models as models
 from util import context_processor
@@ -42,7 +42,9 @@ class ReverseProxied(object):
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
 app = Flask(__name__)
-app.secret_key = "V=7Km+XXkg:}>4dT0('cV>Rp1TG82QEjah+X'v;^w:)a']y)^%"
+app.secret_key = None
+if not app.secret_key:
+    raise ValueError("Set the secret key in kappa.py, line 45")
 db = app.db = SQLAlchemy(app)
 models.register_base(db)
 
