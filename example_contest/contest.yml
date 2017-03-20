@@ -1,7 +1,7 @@
 id: test
 title: Test Contest
 start: 2014-03-02 16:00:00.000
-db: postgresql://epsilon:epsilon@localhost:5432/epsilon
+db: postgresql://epsilon:contest@localhost:5432/epsilon
 duration: 1000000000000
 
 balloons: true

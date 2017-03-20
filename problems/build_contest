@@ -27,5 +27,3 @@ for problem in os.listdir(os.path.join(contest, 'problems')):
         static = os.path.join(problem_dir, '.epsilon', 'static')
         if os.path.isdir(static):
             shutil.copytree(static, os.path.join(output_dir, problem))
-
-
