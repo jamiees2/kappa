@@ -19,8 +19,6 @@ setup postgres sql :
 ```
 sudo apt install postgressql
 ```
-Edit kappa.py and enter a random string into the app.secret that is used as a database password. This should be long and secure. 
-    
 Start postgressql :
 ```
 sudo systemctl start postgressql
@@ -28,9 +26,10 @@ sudo systemctl start postgressql
 Login as the newly created postgres user and initalize the database user and database ( This user was created for you ) :
 ```
 sudo su - postgres
-./db/setup_db.sh epsilon "The secret you created earlier" epsilon
+./db/setup_db.sh epsilon "epsilon" epsilon
 ```
-
+This instruction leaves the default database password as "epsilon", this should be okay since this user only has access to the epsilon table.
+And the database is only accessible from your computer. 
 ## Run
 Starting the program:
 ```

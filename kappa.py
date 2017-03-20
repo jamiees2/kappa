@@ -42,7 +42,9 @@ class ReverseProxied(object):
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
 app = Flask(__name__)
-app.secret_key = "########## Enter super secure passphrase ###########"
+app.secret_key = None
+if not app.secret_key:
+    raise ValueError("Set the secret key in kappa.py, line 45")
 db = app.db = SQLAlchemy(app)
 models.register_base(db)
 
