@@ -42,7 +42,7 @@ class ReverseProxied(object):
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
 app = Flask(__name__)
-app.secret_key = "123456"
+app.secret_key = "########## Enter super secure passphrase ###########"
 db = app.db = SQLAlchemy(app)
 models.register_base(db)
 

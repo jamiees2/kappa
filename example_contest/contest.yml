@@ -1,7 +1,7 @@
 id: test
 title: Test Contest
 start: 2014-03-02 16:00:00.000
-db: postgresql://epsilon:contest@localhost:5432/epsilon
+db: postgresql://epsilon:TableNameForEachContest@localhost:5432/epsilon
 duration: 1000000000000
 
 balloons: true
@@ -18,13 +18,13 @@ phases:
         countdown: 150
         problems:
             testproblem: [visible, scoreboard, submit]
-            testproblem2: [visible, scoreboard, submit]
+            summa: [visible, scoreboard, submit]
     150:
         status: "Hádegishlé"
         countdown: 60
         problems:
             - testproblem: [scoreboard]
-            - testproblem2: [scoreboard]
+            - summa: [scoreboard]
 
     210:
         status: "Eftir hádegi"
@@ -32,4 +32,4 @@ phases:
         problems:
             - "Eftir hádegi"
             - testproblem: [visible, scoreboard, submit]
-            - testproblem2: [visible, scoreboard, submit]
+            - summa: [visible, scoreboard, submit]
