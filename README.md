@@ -30,7 +30,7 @@ sudo su - postgres
 ./db/setup_db.sh epsilon "The secret you created earlier" epsilon
 ```
 
-#Run
+# Run
 Starting the program:
 ```
 python3 kappa.py <contest_dir>
@@ -40,7 +40,7 @@ Build a contest:
 ```
 problems/build_contest <contest_dir>
 ```
-#creating problems
+# creating problems
 For the contest format, see an example contest at `example_contest`.
 
 Based on &epsilon;, see [epsilon](https://github.com/ForritunarkeppniFramhaldsskolanna/epsilon)
