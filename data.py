@@ -148,11 +148,11 @@ class Phase:
         submit_problems = set()
         scoreboard_problems = []
         problem_list = []
-
+        counter = 1
         for problem in d.get('problems', []):
 
             if type(problem) is str:
-                problem_list.append(('text', problem))
+                problem_list.append(('text', problem, -1))
             else:
                 assert len(problem) == 1
 
@@ -162,7 +162,8 @@ class Phase:
 
                 if 'visible' in opts:
                     visible_problems.add(pid)
-                    problem_list.append(('problem', pid))
+                    problem_list.append(('problem', pid, counter))
+                    counter += 1
 
                 if 'submit' in opts:
                     submit_problems.add(pid)
