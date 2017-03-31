@@ -9,10 +9,15 @@
     <textarea id="source_code">{{ submission.answer }}</textarea>
     <hr />
     <form action="" method="post">
-        <h4>Score:
-            <input type="text" name="score" value="{{ submission.score }}" />
-        </h4>
+        <div>
+            <h4>Score:</h4>
+                <input type="text" name="score" value="{{ submission.score }}" />
+            <h4>Points:</h4>
+                <input type="text" name="points" value="{{ submission.points }}" />
+        </div>
+        <br />
+        <br />
         <textarea id="judge_response" name="judge_response">{{ submission.judge_response or '' }}</textarea><br />
-        <button class="btn btn-success">Update score</button>
+        <button class="btn btn-success">Update score & points</button>
     </form>
 {% endblock %}
