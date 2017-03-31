@@ -27,7 +27,7 @@
             <th class="sub_verdict">Points</th>
         </tr>
         {% for sub in submissions %}
-            <tr class="row-success {{ format_verdict_classes(sub.verdict) }}">
+            <tr class="row-success">
                 <td class="sub_id"><a href="{{ url_for('judge.view_submission', sub_id=sub.id) }}">{{ sub.id }}</a></td>
                 <td class="sub_submitted">{{ sub.submitted | format_time }}</td>
                 <td class="sub_team">{{ sub.team }}</td>
