@@ -30,6 +30,9 @@ sudo su - postgres
 ```
 This instruction leaves the default database password as "epsilon", this should be okay since this user only has access to the epsilon table.
 And the database is only accessible from your computer. 
+
+Setting the app.secret_key, this is done in kappa.py on line 45. Remcomendations regarding the key can be found : [secret key](http://flask.pocoo.org/docs/0.12/quickstart/)
+
 ## Run
 Starting the program:
 ```

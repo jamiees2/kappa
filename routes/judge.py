@@ -119,6 +119,7 @@ def view_submission(sub_id):
     if request.method == 'POST':
         if 'score' in request.form and 'judge_response' in request.form:
             sub.score = request.form['score']
+            sub.points = request.form['points']
             sub.judge_response = request.form['judge_response']
 
             app.db.session.commit()
