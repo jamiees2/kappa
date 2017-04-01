@@ -32,6 +32,7 @@ This instruction leaves the default database password as "epsilon", this should 
 And the database is only accessible from your computer. 
 
 Setting the app.secret_key, this is done in kappa.py on line 45. Remcomendations regarding the key can be found : [secret key](http://flask.pocoo.org/docs/0.12/quickstart/)
+
 ## Run
 Starting the program:
 ```
