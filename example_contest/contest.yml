@@ -17,8 +17,8 @@ phases:
         status: "Fyrir hádegi"
         countdown: 150
         problems:
-            testproblem: [visible, scoreboard, submit]
-            testproblem2: [visible, scoreboard, submit]
+            - testproblem: [visible, scoreboard, submit]
+            - testproblem2: [visible, scoreboard, submit]
     150:
         status: "Hádegishlé"
         countdown: 60
